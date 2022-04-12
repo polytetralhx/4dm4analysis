@@ -37,15 +37,26 @@ def get_outlier(dataset: pd.Series):
 
     return dataset[(dataset < (Q1 - iqr)) | (dataset > (Q3 + iqr))]
 
+def logit_dataset(data: pd.DataFrame):
+    d = data / 1000000
+    return np.log(d / (1 - d))
+
 def EDA(roundname):
     columns = list(filter(lambda x: x.split("_")[0] == roundname, four_dm_dataset.columns))
-    round_column = four_dm_dataset[columns] / 1000000
-    round_column = np.log(round_column / (1 - round_column))
+    round_column = logit_dataset(four_dm_dataset[columns])
     round_column = round_column.rename(columns={c: c.split("_")[-1] for c in columns})
     round_column.plot(kind='box', title=roundname + "_logit")
-    # return get_outlier(round_column)
 
-for round in map_label.keys():
-    EDA(round)
-    plt.savefig(round + ".png")
+def plot_dist(data: pd.Series):
+    data.plot(kind='hist')
 
+if __name__ == "__main__":
+    for round in map_label.keys():
+        EDA(round)
+        plt.savefig(round + ".png")
+
+    plt.cla()
+    plot_dist(data=logit_dataset(four_dm_dataset['QF_LN2']))
+    plt.show() 
+
+# what is next ? try to detect specialist according to round + pattern ? and use some of weighted stuff to get the probability of outlier
