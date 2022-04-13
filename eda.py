@@ -20,11 +20,6 @@ map_label = {
     'GF': get_map_labels(7,3,4,2)
 }
 
-# most data is skewed with the local maxima on the right
-# so what the fuck should we do
-# IDEA : REMOVE LEFT OUTLIER USING IQR THINGY idk
-# NaN = ignore
-
 def IQR(dataset: pd.Series):
     Q1 = dataset.quantile(0.25)
     Q3 = dataset.quantile(0.75)
@@ -47,6 +42,13 @@ def EDA(roundname):
     round_column = round_column.rename(columns={c: c.split("_")[-1] for c in columns})
     round_column.plot(kind='box', title=roundname + "_logit")
 
+def build_logit_data(dataset: pd.DataFrame):
+    player_data = ['player_name', 'player_id', 'country_code']
+    numeric_data = list(filter(lambda x: x not in player_data, dataset.columns))
+    new_dataset = dataset[player_data]
+    new_dataset[numeric_data] = logit_dataset(dataset[numeric_data])
+    return new_dataset
+
 def plot_dist(data: pd.Series):
     data.plot(kind='hist')
 
@@ -55,8 +57,9 @@ if __name__ == "__main__":
         EDA(round)
         plt.savefig(round + ".png")
 
-    plt.cla()
+    plt.close()
     plot_dist(data=logit_dataset(four_dm_dataset['QF_LN2']))
     plt.show() 
 
-# what is next ? try to detect specialist according to round + pattern ? and use some of weighted stuff to get the probability of outlier
+    build_logit_data(four_dm_dataset).to_csv('4dm_logit.csv', index=False)
+
