@@ -4,6 +4,9 @@ from scipy.stats import chi2, norm, t, f
 
 t_cdf = t.cdf
 t_invcdf = t.ppf
+f_invcdf = f.ppf
+f_cdf = f.cdf
+f_inv_rt = f.isf
 
 logit_dataset = pd.read_csv('4dm_logit.csv')
 
@@ -35,11 +38,30 @@ def hypothesis_raw_dataset(data1: np.ndarray, data2: np.ndarray, alpha=0.05):
     mean1, mean2 = np.mean(data1), np.mean(data2)
     n1, n2 = len(data1), len(data2)
     std1, std2 = np.std(data1, ddof=1), np.std(data2, ddof=1)
-    return mean_hypothesis_test(mean1, std1, n1, mean2, std2, n2)
+    return mean_hypothesis_test(mean1, std1, n1, mean2, std2, n2, alpha)
 
 def variance_hypothesis_test(s1, s2, n1, n2, alpha=0.05):
-    """How to use scipy.stats.f lmao"""
-    return 
+    """
+    Construct a hypothesis testing where null hypothesis is
+    H0 : sigma_1^2 = sigma_2^2
+    Ha : sigma_1^2 != sigma_2^2
+    """
+    var_1 = s1 ** 2
+    var_2 = s2 ** 2
+    df1 = n1 - 1
+    df2 = n2 - 1
+    f_stat = var_1 / var_2
+    f_alpha = f_inv_rt(alpha/2, df1, df2)
+    f_1_alpha = f_inv_rt(1 - alpha/2, df1, df2)
+    rj_null = not (f_1_alpha < f_stat and f_stat < f_alpha)
+    return f_stat, rj_null
+
+def variance_raw_dataset(data1: np.ndarray, data2: np.ndarray, alpha=0.05):
+    data1 = data1[np.isnan(data1) == False]
+    data2 = data2[np.isnan(data2) == False]
+    n1, n2 = len(data1), len(data2)
+    std1, std2 = np.std(data1, ddof=1), np.std(data2, ddof=1)
+    return variance_hypothesis_test(std1, std2, n1, n2, alpha)
 
 def hypothesis_testing(round):
     all_maps_in_the_round = list(logit_dataset.columns)
@@ -59,5 +81,21 @@ def hypothesis_testing(round):
 
     return sus_pair
 
+def variance_hypothesis(round):
+    all_maps_in_the_round = list(logit_dataset.columns)
+    all_maps_in_the_round = list(filter(lambda x: x.split("_")[0] == round, all_maps_in_the_round))
 
-print(hypothesis_testing('SF'))
+    sus_pair = []
+    for i, type1 in enumerate(all_maps_in_the_round):
+        for j, type2 in enumerate(all_maps_in_the_round[i+1:]):
+            data1 = logit_dataset[type1].values
+            data2 = logit_dataset[type2].values
+            if np.all(np.isnan(data1)) or np.all(np.isnan(data2)):
+                continue
+            f_stat, reject_null = variance_raw_dataset(data1, data2)
+            if reject_null:
+                sus_pair.append([type1, type2])
+
+    return sus_pair
+
+
