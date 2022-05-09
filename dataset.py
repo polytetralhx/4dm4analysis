@@ -1,7 +1,8 @@
 import numpy as np
 import pandas as pd
-from constants import PLAYER_DATA_COLS
+from constants import INTERESTED_BEATMAP_TYPE, PLAYER_DATA_COLS, ROUNDS
 from copy import deepcopy as copy
+from sklearn.pipeline import Pipeline
 
 
 class Dataset():
@@ -24,7 +25,12 @@ class Dataset():
     def get_beatmap_columns(self, round=None, beatmap_type=None, numeric=False):
         columns = list(self.data.columns)
         def is_column(c):
-            return ((not round) or c.split("_")[0] == round) and ((not beatmap_type) or (beatmap_type in c)) and c not in self.get_unplayed_maps() + PLAYER_DATA_COLS
+            in_interested_type = False
+            for t in INTERESTED_BEATMAP_TYPE:
+                if t in c:
+                    in_interested_type = not in_interested_type
+                    break
+            return (not round or c.split("_")[0] == round) and (not beatmap_type or (beatmap_type in c)) and (c not in self.get_unplayed_maps() + PLAYER_DATA_COLS) and in_interested_type
         
         
         columns = list(filter(is_column, columns))
@@ -58,3 +64,13 @@ class Dataset():
     def query(self, round=None, beatmap_type=None, numeric=False):
         a = self.get_beatmap_columns(round, beatmap_type, numeric)
         return self[a]
+    
+    def apply_outlier_model(self, round: str, beatmap_type: str, eda_model: Pipeline, outlier_model):
+        dataset = self.query(round=round, beatmap_type=beatmap_type)
+        dataset.remove_unplayers()
+        players = dataset.data['player_name']
+        dataset = dataset.query(numeric=True)
+        pca_res = eda_model.fit_transform(dataset.data.values)
+        outlier_res = outlier_model.fit_predict(pca_res)
+
+        return players, pca_res, outlier_res
