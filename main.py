@@ -2,7 +2,7 @@ import os
 import matplotlib.pyplot as plt
 import numpy as np
 from dataset import Dataset
-from model import get_model, isolationforest, kmeans, oneclassSVM
+from model import get_model, isolationforest, kmeans, oneclassSVM, lof
 from constants import LOGIT_DATASET_DIR, FOURDM_DATASET_DIR, ROUNDS, INTERESTED_BEATMAP_TYPE
 
 # player data + numeric data
@@ -15,7 +15,7 @@ FOURDM_DATASET = Dataset(FOURDM_DATASET_DIR).query(numeric=False)
 LOGIT_NUMERIC = LOGIT_DATASET.query(numeric=True)
 FOURDM_NUMERIC = FOURDM_DATASET.query(numeric=True)
 
-# model for EDA / Skillbanning (KNN-Impute + PCA with dimensionality 2)
+# model for EDA / Skillbanning (KNN-Impute + PCA with dimensionality 3)
 
 skillban_model = get_model(3)
 
@@ -82,6 +82,8 @@ for map_type in INTERESTED_BEATMAP_TYPE:
     plot_outlier(players, pca_res, outlier_res, f"oneclassSVM_{map_type}", f'oneclassSVM/{map_type}.png')
     players, pca_res, outlier_res = LOGIT_DATASET.apply_outlier_model(None, map_type, skillban_model, isolationforest)
     plot_outlier(players, pca_res, outlier_res, f"isolationForest_{map_type}", f'isolationForest/{map_type}.png')
+    players, pca_res, outlier_res = LOGIT_DATASET.apply_outlier_model(None, map_type, skillban_model, lof)
+    plot_outlier(players, pca_res, outlier_res, f"lof_{map_type}", f'lof/{map_type}.png')
     players, pca_res, outlier_res = LOGIT_DATASET.apply_outlier_model(None, map_type, skillban_model, kmeans)
     plot_kmeans(players, pca_res, outlier_res, f"kmeans_{map_type}", f'kmeans/{map_type}.png')
 
@@ -90,5 +92,12 @@ for round in ROUNDS:
     plot_outlier(players, pca_res, outlier_res, f"oneclassSVM_{round}", f'oneclassSVM/{round}.png')
     players, pca_res, outlier_res = LOGIT_DATASET.apply_outlier_model(round, None, skillban_model, isolationforest)
     plot_outlier(players, pca_res, outlier_res, f"isolationForest_{round}", f'isolationForest/{round}.png')
+    players, pca_res, outlier_res = LOGIT_DATASET.apply_outlier_model(round, None, skillban_model, lof)
+    plot_outlier(players, pca_res, outlier_res, f"lof_{round}", f'lof/{round}.png')
     players, pca_res, outlier_res = LOGIT_DATASET.apply_outlier_model(round, None, skillban_model, kmeans)
     plot_kmeans(players, pca_res, outlier_res, f"kmeans_{round}", f'kmeans/{round}.png')
+
+# with all outliers that has been collected
+# how are we gonna select skillban players ?
+# the answer might be handpicking but there should be some values for considerations
+# isolationforest / kmeans looking good
