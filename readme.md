@@ -162,6 +162,8 @@ With all the models we have selected, the problem is the interpretability of the
 
 We need to find the metric to decide whether which model works the best for this dataset and we need more ideas on the models too (probably add some twists to old model or suggest new ones)
 
+### Current Challenges
+
 **Skillbanning**
 
 After we found the outliers, we need to select the players to skillban. This process is difficult to do automatically since there is no model that supports this yet so we need to come up with our own. This also caused from the problem of **Interpretability of the Model** since we still don't understand the result of dimensionality reduction techniques clearly yet.
