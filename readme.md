@@ -32,9 +32,9 @@ This project will soon expand to ranked and loved maps but after we finish the a
 
 We transform the scores using the function below
 
-<img src="https://latex.codecogs.com/gif.latex?score_{transform} = \ln(\frac{score}{1 - score})" /> 
+<img src="https://latex2png.com/pngs/c43dc4aebb0ef3a4cafcb81b7b82a4ea.png" /> 
 
-where $score$ variable were normalized by dividing 1000000
+where **score** variable were normalized by dividing 1000000
 
 This function can be seen as an inverse logit function and it (kind of) make the score data looks more normal (except for example Qualifiers Stage 4 where p-value of chi-squared goodness of fit test goes boom)
 
