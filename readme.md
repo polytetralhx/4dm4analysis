@@ -32,9 +32,7 @@ This project will soon expand to ranked and loved maps but after we finish the a
 
 We transform the scores using the function below
 
-$$
-score_{transform} = \ln(\frac{score}{1 - score})
-$$
+<img src="https://latex.codecogs.com/gif.latex?score_{transform} = \ln(\frac{score}{1 - score})" /> 
 
 where $score$ variable were normalized by dividing 1000000
 
