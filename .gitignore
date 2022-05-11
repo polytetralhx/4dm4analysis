@@ -2,3 +2,4 @@
 *.csv
 archives/*
 __pycache__/*
+pca_components.json
