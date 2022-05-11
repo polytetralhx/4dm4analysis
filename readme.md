@@ -178,4 +178,4 @@ When I wrote the current challenges, I realized this is beyond scope of my under
 
 I think this will be the most challenging job we have to do so in the osu!mania scene so far. I'm looking forward to learn and discuss with you. You are really smart and I believe we can do something to contribute the osu!mania community. Thank you for joining me and have fun with your work. (and don't forget to take a break as well as it is important to you)
 
-\- HowToPlayLN
+\- IndexError_
