@@ -1,6 +1,7 @@
 import os
 import matplotlib.pyplot as plt
 import numpy as np
+import json
 from dataset import Dataset
 from model import get_model, isolationforest, kmeans, oneclassSVM, lof
 from constants import LOGIT_DATASET_DIR, FOURDM_DATASET_DIR, ROUNDS, INTERESTED_BEATMAP_TYPE
@@ -24,6 +25,8 @@ skillban_model = get_model(3)
 if 'map_type' not in os.listdir():
     os.mkdir('map_type')
 
+pca_components = {}
+
 for map_type in INTERESTED_BEATMAP_TYPE:
     map_type_dataset = LOGIT_DATASET.query(beatmap_type=map_type)
     map_type_dataset.remove_unplayers()
@@ -33,6 +36,7 @@ for map_type in INTERESTED_BEATMAP_TYPE:
     plt.title(map_type)
     plt.scatter(res[:, 0], res[:, 1])
     plt.savefig(f'map_type/{map_type}.png')
+    pca_components[map_type] = skillban_model['pca'].components_.copy().tolist()
 
 if 'rounds' not in os.listdir():
     os.mkdir('rounds')
@@ -46,6 +50,11 @@ for round in ROUNDS:
     plt.title(round)
     plt.scatter(res[:, 0], res[:, 1])
     plt.savefig(f'rounds/{round}.png')
+    pca_components[round] = skillban_model['pca'].components_.copy().tolist()
+
+with open('pca_components.json', 'w+') as f:
+    json.dump(pca_components, f)
+    f.close()
 
 # Outlier Detection
 

@@ -167,3 +167,15 @@ We need to find the metric to decide whether which model works the best for this
 **Skillbanning**
 
 After we found the outliers, we need to select the players to skillban. This process is difficult to do automatically since there is no model that supports this yet so we need to come up with our own. This also caused from the problem of **Interpretability of the Model** since we still don't understand the result of dimensionality reduction techniques clearly yet.
+
+---
+
+## Editor's Notes
+
+To : Poly
+
+When I wrote the current challenges, I realized this is beyond scope of my understanding a lot. Imagine actually analyzing data from small sample size (yes, small) and trying to understand what the model yields, or even actually building statistical models from scratch. If we successfully conclude this job, we probably can even do any real world data we wish to do with our magic.
+
+I think this will be the most challenging job we have to do so in the osu!mania scene so far. I'm looking forward to learn and discuss with you. You are really smart and I believe we can do something to contribute the osu!mania community. Thank you for joining me and have fun with your work. (and don't forget to take a break as well as it is important to you)
+
+\- HowToPlayLN
