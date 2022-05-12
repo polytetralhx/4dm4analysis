@@ -172,6 +172,10 @@ We need to find the metric to decide whether which model works the best for this
 
 After we found the outliers, we need to select the players to skillban. This process is difficult to do automatically since there is no model that supports this yet so we need to come up with our own. This also caused from the problem of **Interpretability of the Model** since we still don't understand the result of dimensionality reduction techniques clearly yet.
 
+**Outlier Detection without Imputing the Missing Data**
+
+As mentioned about KNN-Imputation Method, it can yield the false result and reduce our accuracy on detecting the outliers. To support this sentence, I would give the example of some people who is good at a certain map but having the average or lack of skill on other maps. So another challenge is can we detect the outlier effectively without using any Imputation Method ? This is a tough challenge so we can keep this for later.
+
 ---
 
 ## Editor's Notes
