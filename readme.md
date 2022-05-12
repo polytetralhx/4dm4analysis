@@ -180,6 +180,12 @@ As mentioned about KNN-Imputation Method, it can yield the false result and redu
 
 ## Editor's Notes
 
+### Dataset, Visualizations and Code Archives (Failed Attempts that are not included in documentation)
+
+The Cleaned Dataset, EDA Attempts and Code Archives can be found [here](https://drive.google.com/drive/folders/1A4AH3E1vJ7tGiC_hhnfZ8XMC6pPnu8E5?usp=sharing)
+
+### Message to Contributor(s)
+
 To : Poly
 
 When I wrote the current challenges, I realized this is beyond scope of my understanding a lot. Imagine actually analyzing data from small sample size (yes, small) and trying to understand what the model yields, or even actually building statistical models from scratch. If we successfully conclude this job, we probably can even do any real world data we wish to do with our magic.
