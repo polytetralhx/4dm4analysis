@@ -40,8 +40,12 @@ This function can be seen as an inverse logit function and it (kind of) make the
 
 Then we use [k-Nearest Neighbors Imputation](https://scikit-learn.org/stable/modules/generated/sklearn.impute.KNNImputer.html) to impute the missing data and then using [Principal Component Analysis](https://scikit-learn.org/stable/modules/generated/sklearn.decomposition.PCA.html) as a dimensionality reduction techniques to plot each scores into 2D plane, each beatmap type and round are plotted individually. For example, this is the EDA result of Qualifiers Stage
 <div align="center">
-<img src="https://cdn.discordapp.com/attachments/546525809440194560/973614398683881553/Q.png" alt="PCA Results from Qualifiers Stage Scores" />
+<img src="https://cdn.discordapp.com/attachments/546525809440194560/974146572545818624/Q.png" alt="PCA Results from Qualifiers Stage Scores" />
 </div>
+
+From the visualization we can see that we have annotated 800k and 990k there. We simulate what will happen in the PCA in the scenario of a player having 800k score for all maps (or in data scientist language, score = 0.8) and the same applied for 990k scores
+
+PCA relies on linear transformation so everything should be fine here so we use Linear Interpolation / Extrapolation to show the direction of the scores. This might help us in a long when we conduct a `Skillbanning` procedure.
 
 ### Outlier Detection
 
