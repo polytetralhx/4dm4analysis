@@ -45,7 +45,7 @@ Then we use [k-Nearest Neighbors Imputation](https://scikit-learn.org/stable/mod
 
 From the visualization we can see that we have annotated 800k and 990k there. We simulate what will happen in the PCA in the scenario of a player having 800k score for all maps (or in data scientist language, score = 0.8) and the same applied for 990k scores
 
-PCA relies on linear transformation so everything should be fine here so we use Linear Interpolation / Extrapolation to show the direction of the scores. This might help us in a long when we conduct a `Skillbanning` procedure.
+PCA relies on linear transformation so everything should be fine here so we use Linear Interpolation / Extrapolation to show the direction of the scores. This might help us in a long run when we conduct a `Skillbanning` procedure.
 
 ### Outlier Detection
 
