@@ -144,7 +144,7 @@ def get_model(pca_dim):
 
 # Use Model with KNN Imputer and PCA with n_components = 3 (3 dimensional)
 pca_model = get_model(3)
-# use One-Class SVM as an Outlier Detection Modek
+# use One-Class SVM as an Outlier Detection Model
 oneclassSVM = OneClassSVM()
 
 # Apply the dimensionality reduction and outlier models into the dataset
