@@ -25,18 +25,23 @@ skillban_model = get_model(3)
 if 'map_type' not in os.listdir():
     os.mkdir('map_type')
 
-pca_components = {}
+def get_dummy_data(n_columns: int):
+    return [np.ones(n_columns)*np.log(0.8/0.2), np.ones(n_columns)*np.log(0.99/0.01)]
 
 for map_type in INTERESTED_BEATMAP_TYPE:
     map_type_dataset = LOGIT_DATASET.query(beatmap_type=map_type)
     map_type_dataset.remove_unplayers()
     map_type_dataset = map_type_dataset.query(numeric=True)
     res = skillban_model.fit_transform(map_type_dataset.data.values)
+    n_columns = len(map_type_dataset.data.columns)
+    p0, p1 = skillban_model.transform(get_dummy_data(n_columns))
     plt.figure()
     plt.title(map_type)
     plt.scatter(res[:, 0], res[:, 1])
+    plt.plot([p0[0], p1[0]], [p0[1], p1[1]], color='g')
+    plt.annotate('800k', p0[:2])
+    plt.annotate('990k', p1[:2])
     plt.savefig(f'map_type/{map_type}.png')
-    pca_components[map_type] = skillban_model['pca'].components_.copy().tolist()
 
 if 'rounds' not in os.listdir():
     os.mkdir('rounds')
@@ -46,15 +51,15 @@ for round in ROUNDS:
     round_dataset.remove_unplayers()
     round_dataset = round_dataset.query(numeric=True)
     res = skillban_model.fit_transform(round_dataset.data.values)
+    n_columns = len(round_dataset.data.columns)
+    p0, p1 = skillban_model.transform(get_dummy_data(n_columns))
     plt.figure()
     plt.title(round)
     plt.scatter(res[:, 0], res[:, 1])
+    plt.plot([p0[0], p1[0]], [p0[1], p1[1]], color='g')
+    plt.annotate('800k', p0[:2])
+    plt.annotate('990k', p1[:2])
     plt.savefig(f'rounds/{round}.png')
-    pca_components[round] = skillban_model['pca'].components_.copy().tolist()
-
-with open('pca_components.json', 'w+') as f:
-    json.dump(pca_components, f)
-    f.close()
 
 # Outlier Detection
 
