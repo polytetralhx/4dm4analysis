@@ -184,7 +184,7 @@ As mentioned about KNN-Imputation Method, it can yield the false result and redu
 
 The Cleaned Dataset, EDA Attempts and Code Archives can be found [here](https://drive.google.com/drive/folders/1A4AH3E1vJ7tGiC_hhnfZ8XMC6pPnu8E5?usp=sharing)
 
-### Message to Contributor(s)
+### Message to Collaborator(s)
 
 To : Poly
 
