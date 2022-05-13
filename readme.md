@@ -180,6 +180,13 @@ As mentioned about KNN-Imputation Method, it can yield the false result and redu
 
 ## Editor's Notes
 
+### IMPORTANT NOTE
+
+The documentation will soon be outdated for several reasons
+- Refactoring of the code
+- Migration to SQLite Database
+- Model Changes
+
 ### Dataset, Visualizations and Code Archives (Failed Attempts that are not included in documentation)
 
 The Cleaned Dataset, EDA Attempts and Code Archives can be found [here](https://drive.google.com/drive/folders/1A4AH3E1vJ7tGiC_hhnfZ8XMC6pPnu8E5?usp=sharing)
