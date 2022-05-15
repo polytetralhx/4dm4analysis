@@ -14,6 +14,9 @@ class Dataset():
     def format_where(where: dict):
         where_string = []
         for k, v in where.items():
+            if isinstance(v, list):
+                where_string.append(k + " IN " + str(tuple(v)))
+                continue
             if not isinstance(v, str):
                 v = str(v)
             if all([x not in v for x in ["=", ">", "<"]]):
