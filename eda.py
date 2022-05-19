@@ -76,7 +76,6 @@ def get_CI(values, alpha):
 def plot_confidence_interval(alpha, interested_players: list):
     colors = ['#1f77b4', '#ff7f0e', '#2ca02c', '#d62728', '#9567bd', '#8c564b', '#e377c2', '#7f7f7f', '#bcbd22', '#17becf']
     fig, axs = plt.subplots(1, 3)
-    fig.suptitle("95% Confidence Interval of Average Scores of 4dm4 Grand Finalists")
     for i, beatmap_type in enumerate(interested_beatmap_type):
         axs[i].set_title(beatmap_type)
         min_cis = []
@@ -84,7 +83,7 @@ def plot_confidence_interval(alpha, interested_players: list):
         for round in interested_rounds:
             scores = _4DM_Dataset.select(
                 table='scores',
-                columns=['score'],
+                columns=['score * 0.000001'],
                 where={
                     'round': format_sql_string(round),
                     'beatmap_type': format_sql_string(beatmap_type),
@@ -103,5 +102,4 @@ grand_finalists = np.unique(_4DM_Dataset.select('scores', ['player_name'], {
 }).values.flatten()).tolist()
 
 plot_confidence_interval(0.05, grand_finalists)
-plt.legend()
 plt.show()

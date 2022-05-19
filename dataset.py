@@ -66,13 +66,28 @@ class Dataset():
         ```
         """
         return self.query(self.select_script(table, columns, where))
+    
+    def get_old_dataset(self, rounds: list, beatmap_types: list, logit: bool):
+        where = {
+            'round': rounds,
+            'beatmap_type': beatmap_types
+        }
+        column = ['player_name', 'round || "_" || beatmap_type || "_" || beatmap_tag as column_name']
+        if logit:
+            column.append('score_logit')
+        else:
+            column.append('score')
+        _data = self.select('scores', column, where)
+        indecies = _data['player_name'].unique()
+        columns = _data['column_name'].unique()
+        new_dataframe = pd.DataFrame(index=indecies, columns=columns)
+        for data in _data.values:
+            player_name, column_name, score = data
+            new_dataframe.at[player_name, column_name] = score
+        return new_dataframe
+        
 
 if __name__ == "__main__":
     _4dm4 = "4dm4.db"
     dataset = Dataset(_4dm4)
     
-    ds = dataset.select(
-        table='scores'
-    )
-
-    print(ds)

@@ -28,7 +28,9 @@ This project will soon expand to ranked and loved maps but after we finish the a
 
 ## Methodology
 
-TBA
+### Exploratory Data Analysis
+
+Hi
 
 ---
 
@@ -48,7 +50,7 @@ TBA
 
 ### Dataset, Visualizations and Code Archives (Failed Attempts that are not included in documentation)
 
-The Cleaned Dataset, EDA Attempts and Code Archives can be found [here](https://drive.google.com/drive/folders/1A4AH3E1vJ7tGiC_hhnfZ8XMC6pPnu8E5?usp=sharing)
+Cleaned Dataset, EDA Attempts and Code Archives can be found [here](https://drive.google.com/drive/folders/1A4AH3E1vJ7tGiC_hhnfZ8XMC6pPnu8E5?usp=sharing)
 
 ### Message to Collaborator(s)
 
