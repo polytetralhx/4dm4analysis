@@ -83,7 +83,7 @@ def plot_confidence_interval(alpha, interested_players: list):
         for round in interested_rounds:
             scores = _4DM_Dataset.select(
                 table='scores',
-                columns=['score * 0.000001'],
+                columns=['score * 0.000001 as score'],
                 where={
                     'round': format_sql_string(round),
                     'beatmap_type': format_sql_string(beatmap_type),
@@ -97,9 +97,9 @@ def plot_confidence_interval(alpha, interested_players: list):
         axs[i].plot(interested_rounds, ([(a + b) / 2 for a, b in zip(min_cis, max_cis)]), color=colors[i])
         axs[i].fill_between(interested_rounds, min_cis, max_cis, alpha=0.2, color=colors[i])
 
-grand_finalists = np.unique(_4DM_Dataset.select('scores', ['player_name'], {
-    'round': format_sql_string('GF')
-}).values.flatten()).tolist()
+# grand_finalists_to_ro16 = np.unique(_4DM_Dataset.select('scores', ['player_name'], {
+#         'round': ['RO16', 'QF', 'SF', 'F', 'GF']
+#     }).values.flatten()).tolist()
 
-plot_confidence_interval(0.05, grand_finalists)
-plt.show()
+# plot_confidence_interval(0.05, grand_finalists_to_ro16)
+# plt.show()
