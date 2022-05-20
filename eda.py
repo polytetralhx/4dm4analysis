@@ -70,7 +70,6 @@ def get_CI(values, alpha):
     mean = np.mean(values)
     t_a = t.isf(alpha / 2, len(values) - 1)
     me = t_a * std / np.sqrt(len(values))
-    # WYSI
     return mean - me, mean + me
 
 def plot_confidence_interval(dataset: Dataset, title: str, alpha: float, interested_players: list = []):
