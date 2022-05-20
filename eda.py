@@ -151,6 +151,7 @@ def plot_CI_2(alpha=0.05):
         axs2[i].fill_between(interested_rounds, min_cis, max_cis, alpha=0.2, color=colors[i])
 
 # imputed data vs original data
-plot_confidence_interval(_4DM_Dataset, 'Original Data', 0.05)
-plot_confidence_interval(imputed_4dm, 'Original Data + Missing Data Validation', 0.05)
-plt.show()
+if __name__ == "__main__":
+    plot_confidence_interval(_4DM_Dataset, 'Original Data', 0.05)
+    plot_confidence_interval(imputed_4dm, 'Original Data + Missing Data Validation', 0.05)
+    plt.show()
