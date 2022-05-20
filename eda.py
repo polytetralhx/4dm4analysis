@@ -73,21 +73,51 @@ def get_CI(values, alpha):
     # WYSI
     return mean - me, mean + me
 
-def plot_confidence_interval(alpha, interested_players: list):
+def plot_confidence_interval(dataset: Dataset, title: str, alpha: float, interested_players: list = []):
     colors = ['#1f77b4', '#ff7f0e', '#2ca02c', '#d62728', '#9567bd', '#8c564b', '#e377c2', '#7f7f7f', '#bcbd22', '#17becf']
     fig, axs = plt.subplots(1, 3)
+    fig.suptitle(title)
     for i, beatmap_type in enumerate(interested_beatmap_type):
         axs[i].set_title(beatmap_type)
         min_cis = []
         max_cis = []
         for round in interested_rounds:
-            scores = _4DM_Dataset.select(
+            where = {
+                'round': format_sql_string(round),
+                'beatmap_type': format_sql_string(beatmap_type)
+            }
+            if len(interested_players) > 0:
+                where['player_name'] = interested_players
+            scores = dataset.select(
+                table='scores',
+                columns=['score * 0.000001 as score'],
+                where=where
+            ).values.flatten()
+
+            min_ci, max_ci = get_CI(scores, alpha)
+            min_cis.append(min_ci)
+            max_cis.append(max_ci)
+        axs[i].plot(interested_rounds, ([(a + b) / 2 for a, b in zip(min_cis, max_cis)]), color=colors[i])
+        axs[i].fill_between(interested_rounds, min_cis, max_cis, alpha=0.2, color=colors[i])
+
+imputed_4dm = Dataset('4dm4_impute.db')
+
+def plot_CI_2(alpha=0.05):
+    colors = ['#1f77b4', '#ff7f0e', '#2ca02c', '#d62728', '#9567bd', '#8c564b', '#e377c2', '#7f7f7f', '#bcbd22', '#17becf']
+    
+    fig, axs = plt.subplots(1, 3)
+    fig.suptitle("Original Data (With missing data validated)")
+    for i, beatmap_type in enumerate(interested_beatmap_type):
+        axs[i].set_title(beatmap_type)
+        min_cis = []
+        max_cis = []
+        for round in interested_rounds:
+            scores = imputed_4dm.select(
                 table='scores',
                 columns=['score * 0.000001 as score'],
                 where={
                     'round': format_sql_string(round),
                     'beatmap_type': format_sql_string(beatmap_type),
-                    'player_name': interested_players
                 }
             ).values.flatten()
 
@@ -97,9 +127,30 @@ def plot_confidence_interval(alpha, interested_players: list):
         axs[i].plot(interested_rounds, ([(a + b) / 2 for a, b in zip(min_cis, max_cis)]), color=colors[i])
         axs[i].fill_between(interested_rounds, min_cis, max_cis, alpha=0.2, color=colors[i])
 
-# grand_finalists_to_ro16 = np.unique(_4DM_Dataset.select('scores', ['player_name'], {
-#         'round': ['RO16', 'QF', 'SF', 'F', 'GF']
-#     }).values.flatten()).tolist()
+    fig2, axs2 = plt.subplots(1, 3)
+    fig2.suptitle("Original Data")
+    for i, beatmap_type in enumerate(interested_beatmap_type):
+        axs[i].set_title(beatmap_type)
+        min_cis = []
+        max_cis = []
+        for round in interested_rounds:
+            scores = imputed_4dm.select(
+                table='scores',
+                columns=['score * 0.000001 as score'],
+                where={
+                    'round': format_sql_string(round),
+                    'beatmap_type': format_sql_string(beatmap_type),
+                    'played': 1
+                }
+            ).values.flatten()
 
-# plot_confidence_interval(0.05, grand_finalists_to_ro16)
-# plt.show()
+            min_ci, max_ci = get_CI(scores, alpha)
+            min_cis.append(min_ci)
+            max_cis.append(max_ci)
+        axs2[i].plot(interested_rounds, ([(a + b) / 2 for a, b in zip(min_cis, max_cis)]), color=colors[i])
+        axs2[i].fill_between(interested_rounds, min_cis, max_cis, alpha=0.2, color=colors[i])
+
+# imputed data vs original data
+plot_confidence_interval(_4DM_Dataset, 'Original Data', 0.05)
+plot_confidence_interval(imputed_4dm, 'Original Data + Missing Data Validation', 0.05)
+plt.show()
