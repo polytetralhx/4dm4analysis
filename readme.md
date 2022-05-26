@@ -30,13 +30,21 @@ This project will soon expand to ranked and loved maps but after we finish the a
 
 ### Exploratory Data Analysis
 
-aaaa
+TBA
 
 ---
 
 ## Code Documentation
 
-TBA
+### Dataset Class
+
+### Utility Functions
+
+#### Collaborative Filtering
+
+#### csv to sql
+
+#### Hypothesis Testing (t-test and f-test)
 
 ---
 

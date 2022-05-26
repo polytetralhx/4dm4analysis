@@ -3,3 +3,4 @@ pandas
 numpy
 matplotlib
 sqlite3
+scipy
