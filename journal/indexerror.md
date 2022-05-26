@@ -93,20 +93,57 @@ KNN Imputation is a built-in method in [sklearn](https://scikit-learn.org/stable
 
 K-Nearest Neighbors (KNN) is the method to predict the unknown value by using the values of the closest data points. The closest data points are mostly determined using [Euclidean Distance](https://en.wikipedia.org/wiki/Euclidean_distance) and after obtaining the closest data points, average the prediction values of each data point.
 
-#### How it helps with validating data
-
 #### Our Methodology
+
+First, we normalize the data by subtracting the data the mean of each player in each beatmap type of each round (following this code snippet)
+
+```python
+old_ds = _4dm.get_old_dataset(interested_rounds, interested_types, True)
+played = pd.notna(old_ds)
+mean = _4dm.query(
+    f"SELECT player_name, avg(score_logit) as average_score from scores where round in {tuple(interested_rounds)} and beatmap_type in {tuple(interested_types)} GROUP BY player_name"
+)
+
+for player_name in mean["player_name"]:
+    old_ds.loc[player_name] -= float(
+        mean[mean["player_name"] == player_name]["average_score"]
+    )
+```
+
+then we use the sklearn's KNN Imputation with k=2 with Euclidean Distance of non-null data points to find the nearest neighbors, and use uniform weight (i.e. averaging) to calculate the output from the normalized data, after that we add the mean value back to the data.
+
+To solve any concern about the accuracy of validated data, we use [Hypothesis Testing](#hypothesis-testing) to compare the original data and the validated data
 
 ## Hypothesis Testing
 
-_Once a wise man said "If p-value is less than alpha, we reject the Null Hypothesis"_ - Statistics
+<div align="center"><em>Once a wise man said "If p-value is less than alpha, we reject the Null Hypothesis"</em></div>
+
+<br>
+
+In order to check if the validated data is actually valid, we need to compare the means and variances of original data and validated data. This section will tell you about how we conduct the hypothesis tests for these.
 
 ### Hypotheses
 
+In practice, the existed scores are the best each team can perform, so we expect that the mean for original data should be greater than the mean from validated data and both data should maintain the same variances. Which can be written as following hypotheses.
+
+**For means**
+
+- Null Hypothesis : The mean from original data is equal to the mean from validated data
+- Alternative Hypothesis : The mean from original data is greater than the mean from validated data
+
+**For variances**
+
+- Null Hypothesis : The variance from original data is equal to the variance from validated data
+- Alternative Hypothesis : The variance from original data is not equal to the variance from validated data
+
 ### Methodology : t-test and f-test
 
-The Author is lacking of Nonparametric stats knowledge so he uses t-test and f-test kappa
+For comparing mean values, we use [**two means t-test**](https://www.jmp.com/en_ch/statistics-knowledge-portal/t-test/two-sample-t-test.html) with [**Welch's adjusted Degree of Freedom**](https://en.wikipedia.org/wiki/Welch%E2%80%93Satterthwaite_equation) for Degree of Freedom estimation (Don't worry if you don't understand any of these, it is more complicated version of what I wrote in [this article](https://medium.com/@indexerror_/how-i-select-my-best-coffee-shop-hypothesis-testing-for-complete-beginners-deedaeda727e)). However, we use two-tail test with level of significance 0.05. Because HowToPlayLN is lazy to write stuff again smh.
+
+For comparing variances, we use [**two variances f-test**](https://www.itl.nist.gov/div898/handbook/eda/section3/eda359.htm) to test the equality of variances from original data and validated data.
+
+We then obtain the p-values from both tests to see how significance the differences are.
 
 ### Hypothesis Testing Results
 
-TBA
+From the following tests, we've run the test and the result is that the mean from original data is significantly different from the mean from validated data. Moreover, the mean from validated data is lower than the mean from original data. According to f-test, the differences of variances between original data and validated data is insignificance. We can conclude that this validation method (might be) a good approach to validate scores. However, more observation needs to be conducted.

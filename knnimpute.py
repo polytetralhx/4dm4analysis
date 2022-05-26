@@ -12,7 +12,7 @@ played = pd.notna(old_ds)
 mean = _4dm.query(
     f"SELECT player_name, avg(score_logit) as average_score from scores where round in {tuple(interested_rounds)} and beatmap_type in {tuple(interested_types)} GROUP BY player_name"
 )
-old_ds = old_ds
+
 for player_name in mean["player_name"]:
     old_ds.loc[player_name] -= float(
         mean[mean["player_name"] == player_name]["average_score"]
