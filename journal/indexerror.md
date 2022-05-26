@@ -63,7 +63,7 @@ From the observation, we can see that the Average and 95% Confidence Rice Score 
 
 ## Logit Normalization
 
-TBA
+The scores we gathered are in the range of 0 to 1 million, which we can scale down to 0-1 by dividing 1 million. After that we use the logit function `ln(x/(1-x))` to transform the data into range `[-inf, inf]`. It makes the data closer to normal distribution (from what I observed in chi-sq goodness of fit) and it prevent the over 1 million score prediction from [Missing Data Validation](#missing-data-validation)
 
 ## Missing Data Validation
 
@@ -138,7 +138,7 @@ In practice, the existed scores are the best each team can perform, so we expect
 
 ### Methodology : t-test and f-test
 
-For comparing mean values, we use [**two means t-test**](https://www.jmp.com/en_ch/statistics-knowledge-portal/t-test/two-sample-t-test.html) with [**Welch's adjusted Degree of Freedom**](https://en.wikipedia.org/wiki/Welch%E2%80%93Satterthwaite_equation) for Degree of Freedom estimation (Don't worry if you don't understand any of these, it is more complicated version of what I wrote in [this article](https://medium.com/@indexerror_/how-i-select-my-best-coffee-shop-hypothesis-testing-for-complete-beginners-deedaeda727e)). However, we use two-tail test with level of significance 0.05. Because HowToPlayLN is lazy to write stuff again smh.
+For comparing mean values, we use [**two means t-test**](https://www.jmp.com/en_ch/statistics-knowledge-portal/t-test/two-sample-t-test.html) with [**Welch's adjusted Degree of Freedom**](https://en.wikipedia.org/wiki/Welch%E2%80%93Satterthwaite_equation) for Degree of Freedom estimation (Don't worry if you don't understand any of these, it is more complicated version of what I wrote in [this article](https://medium.com/@indexerror_/how-i-select-my-best-coffee-shop-hypothesis-testing-for-complete-beginners-deedaeda727e)). However, we use two-tail test with level of significance 0.05. Because index is lazy to write stuff again smh.
 
 For comparing variances, we use [**two variances f-test**](https://www.itl.nist.gov/div898/handbook/eda/section3/eda359.htm) to test the equality of variances from original data and validated data.
 
