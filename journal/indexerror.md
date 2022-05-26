@@ -105,7 +105,7 @@ _Once a wise man said "If p-value is less than alpha, we reject the Null Hypothe
 
 ### Methodology : t-test and f-test
 
-The Author is lacking of Bayesian stats knowledge so he uses t-test and f-test kappa
+The Author is lacking of Nonparametric stats knowledge so he uses t-test and f-test kappa
 
 ### Hypothesis Testing Results
 
