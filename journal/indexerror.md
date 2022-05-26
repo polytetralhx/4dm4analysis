@@ -99,6 +99,8 @@ K-Nearest Neighbors (KNN) is the method to predict the unknown value by using th
 
 ## Hypothesis Testing
 
+_Once a wise man said "If p-value is less than alpha, we reject the Null Hypothesis"_ - Statistics
+
 ### Hypotheses
 
 ### Methodology : t-test and f-test
@@ -107,4 +109,4 @@ The Author is lacking of Bayesian stats knowledge so he uses t-test and f-test k
 
 ### Hypothesis Testing Results
 
-I hate my life
+TBA
