@@ -14,6 +14,15 @@ def insert(cursor, table, data: dict):
     cursor.execute(sql)
 
 def csv_to_sql(cursor, full_dataset: pd.DataFrame, is_played: pd.DataFrame):
+    cursor.execute("DROP TABLE IF EXISTS scores")
+    cursor.execute("""CREATE TABLE "scores" (
+        "player_name"	TEXT,
+        "score"	NUMERIC,
+        "round"	TEXT,
+        "beatmap_type"	TEXT,
+        "beatmap_tag"	INTEGER,
+        "played"	INTEGER
+    );""")
     index = full_dataset.index
     columns = full_dataset.columns
 
