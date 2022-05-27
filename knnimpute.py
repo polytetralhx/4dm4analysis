@@ -3,6 +3,7 @@ import numpy as np
 import pandas as pd
 from sklearn.impute import KNNImputer
 from dataset import Dataset
+from utils import csv_to_sql
 
 interested_rounds = ["Q", "RO32", "RO16", "QF", "SF", "F", "GF"]
 interested_types = ["LN", "HB", "RC", "TB"]
@@ -31,41 +32,5 @@ new_ds = new_ds.apply(lambda x: 1000000 / (1 + np.exp(-x)))
 new_sql = sqlite3.connect("4dm4_impute.db")
 cursor = new_sql.cursor()
 
-
-def format_values(dict_values):
-    new_values = []
-    for val in dict_values:
-        if isinstance(val, str):
-            new_values.append(f"'{val}'")
-        else:
-            new_values.append(str(val))
-    return ", ".join(new_values)
-
-
-def insert(table, data: dict):
-    sql = f'INSERT INTO {table} ({", ".join(data.keys())}) values ({format_values(list(data.values()))})'
-    cursor.execute(sql)
-
-
-def impute_data_to_sql(full_dataset: pd.DataFrame, is_played: pd.DataFrame):
-    index = full_dataset.index
-    columns = full_dataset.columns
-
-    for col in columns:
-        round, map_type, map_tag = col.split("_")
-        for idx in index:
-            score = full_dataset.at[(idx, col)]
-            played = is_played.at[(idx, col)]
-            data = {
-                "player_name": idx,
-                "score": score,
-                "played": int(played),
-                "round": round,
-                "beatmap_type": map_type,
-                "beatmap_tag": map_tag,
-            }
-            insert("scores", data)
-
-
-impute_data_to_sql(new_ds, played)
+csv_to_sql(cursor, new_ds, played)
 new_sql.commit()

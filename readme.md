@@ -126,9 +126,11 @@ validated_data # expect to return np.array without null data
 
 #### csv to sqlite database
 
-In order to transform from 2d pandas array from `Dataset().get_old_dataset` method to sqlite database, we use `utils.csv_to_sql` function to do that.
+In order to transform from validated 2d pandas array from `Collaborative Filtering` or `sklearn.KNNImputer` to sqlite database, we use `utils.csv_to_sql` function to do that.
 
-Index's notes : This function is still not complete and need a lot of refactoring. (so probably import stuff to csv should be fine for now)
+In order to use this function, we need `sqlite3.Connection` data type to do that (from `sqlite3.connect` function) and `played` dataset.
+
+The example can be seen in `knnimpute.py`
 
 #### Hypothesis Testing (t-test and f-test)
 
