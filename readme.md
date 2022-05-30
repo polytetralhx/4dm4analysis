@@ -28,168 +28,143 @@ This project will soon expand to ranked and loved maps but after we finish the a
 
 ## Methodology
 
-### Exploratory Data Analysis and Data Imputation
+### Exploratory Data Analysis
 
-We transform the scores using the function below
-
-<img src="https://latex2png.com/pngs/c43dc4aebb0ef3a4cafcb81b7b82a4ea.png" /> 
-
-where **score** variable were normalized by dividing 1000000
-
-This function can be seen as an inverse logit function and it (kind of) make the score data looks more normal (except for example Qualifiers Stage 4 where p-value of chi-squared goodness of fit test goes boom)
-
-Then we use [k-Nearest Neighbors Imputation](https://scikit-learn.org/stable/modules/generated/sklearn.impute.KNNImputer.html) to impute the missing data and then using [Principal Component Analysis](https://scikit-learn.org/stable/modules/generated/sklearn.decomposition.PCA.html) as a dimensionality reduction techniques to plot each scores into 2D plane, each beatmap type and round are plotted individually. For example, this is the EDA result of Qualifiers Stage
-<div align="center">
-<img src="https://cdn.discordapp.com/attachments/546525809440194560/974146572545818624/Q.png" alt="PCA Results from Qualifiers Stage Scores" />
-</div>
-
-From the visualization we can see that we have annotated 800k and 990k there. We simulate what will happen in the PCA in the scenario of a player having 800k score for all maps (or in data scientist language, score = 0.8) and the same applied for 990k scores
-
-PCA relies on linear transformation so everything should be fine here so we use Linear Interpolation / Extrapolation to show the direction of the scores. This might help us in a long run when we conduct a `Skillbanning` procedure.
-
-### Outlier Detection
-
-Currently we have the various models for Outlier Detection Algorithm, we decide to use the results from Exploratory Data Analysis (with PCA n-compoenents = 3) to do the following :
-
-**Clustering using K-means**
-
-We use [K-means](http://scikit-learn.org/stable/modules/generated/sklearn.cluster.KMeans.html) (k=7) to cluster the players into groups and then we plan to detect the outliers from those groups where the group member is a small minority of the population (for example a group with 1 member). This is one of the results from Qualifiers Stage
-
-<div align="center">
-<img src="https://cdn.discordapp.com/attachments/546525809440194560/973618310660911195/Q.png" alt="K-Means Qualifiers Stage" />
-</div>
-
-**One Class SVM**
-
-We use [One-Class Support Vector Machine](https://scikit-learn.org/stable/modules/generated/sklearn.svm.OneClassSVM.html) with [RBF Kernel](https://towardsdatascience.com/svm-classifier-and-rbf-kernel-how-to-make-better-models-in-python-73bb4914af5b) to detect the outliers from the data. This is one of the results from Semifinals Stage
-
-<div align="center">
-<img src="https://cdn.discordapp.com/attachments/546525809440194560/973619336122097686/SF.png" alt="One-Class SVM" />
-</div>
-
-**Isolation Forest**
-
-We also use [Isolation Forest](https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.IsolationForest.html) to detect the outliers from the data. This method relies on how easy it is to classify the data using the Unsupervised Tree. This is one of the results from Semifinals Stage
-
-<div align="center">
-<img src="https://cdn.discordapp.com/attachments/546525809440194560/973621954013716581/SF.png" alt="Isolation Forest" />
-</div>
-
-**Local Outlier Factor**
-
-[Local Outlier Factor](https://scikit-learn.org/stable/modules/generated/sklearn.neighbors.LocalOutlierFactor.html) is a method to find the outlier using the distance of Nearest Neighbors (according to sklearn it is local density but yeah that is almost the same thing I guess) and we use those to calculate the anomaly score to detect the outliers. This is the example from Round of 32
-
-<div align="center">
-<img src="https://cdn.discordapp.com/attachments/546525809440194560/973623292344795196/RO32.png" alt="LOF" />
-</div>
-
-### Skillbanning
-
-See `Problems / Challenges`
+TBA
 
 ---
 
 ## Code Documentation
 
-This Code Documentation will focus on the class `Dataset`
-
 ### Dataset Class
 
-**Initialization**
+There is a `Dataset` class inside the `dataset.py` file. Which is made to deal with `pandas.DataFrame` and `SQLite3 Database` (specially for 4dm4 players / scores data) there are 3 important methods in this class (and potentially more methods)
 
-We can initialize the class by using the `.csv` file path
+#### Initialization
 
-```python {all|2|1-6|9|all}
-from dataset import Dataset
-
-ds = Dataset('4dm_logit.csv')
-ds.data # pd.DataFrame
-```
-
-**Query**
-
-We can query the dataset by inputting the `round` and/or `beatmap_type` into the `Dataset.query` function
-
-```python {all|2|1-6|9|all}
-ds.query(round="SF") # query Semifinals with Player Data
-ds.query(beatmap_type="LN") # query LN maps with Player Data
-ds.query(numeric=True) # query all without Player Data
-```
-
-**Remove All Null Player Data**
-
-We can removing the player that has no data in the dataset by using the command `Dataset.remove_unplayers()` function
-
-```python {all|2|1-6|9|all}
-SF_dataset = ds.query(round="SF") # query Semifinals with Player Data
-SF_dataset.remove_unplayers() # remove players who don't play in semifinals out
-```
-
-**Applying Models**
-
-We can apply the models to the specified data by using `Dataset.apply_outlier_model` function
+The `Dataset` class can be initialized using the sqlite `.db` file
 
 ```python {all|2|1-6|9|all}
 from dataset import Dataset
-from sklearn.impute import KNNImputer
-from sklearn.decomposition import PCA
-from sklearn.pipeline import Pipeline
-from sklearn.svm import OneClassSVM
 
-LOGIT_DATASET = Dataset("4dm_logit.csv").query(numeric=False) # logit dataset with player data
+_4dm4 = Dataset('4dm4.db')
+```
 
-# This function returns model sequence which consists of KNN Imputer and PCA with the inputted pca_dim
-def get_model(pca_dim):
-    return Pipeline([('imputer', KNNImputer()), ('pca', PCA(pca_dim))])
+#### query
 
-# Use Model with KNN Imputer and PCA with n_components = 3 (3 dimensional)
-pca_model = get_model(3)
-# use One-Class SVM as an Outlier Detection Model
-oneclassSVM = OneClassSVM()
+The `Dataset().query` method is implemented for SQLite Query in the `.db` file and output type `pandas.DataFrame` of the query result.
 
-# Apply the dimensionality reduction and outlier models into the dataset
-# This returns the players list, the result of PCA or other dimensionality reduction model and the classification result of unsupervised models
-players, pca_res, outlier_res = LOGIT_DATASET.apply_outlier_model(None, "SF", pca_model, oneclassSVM)
+```python {all|2|1-6|9|all}
+query_result = _4dm4.query("SELECT * FROM scores")
+query_result # pandas.DataFrame
+```
+
+#### select
+
+The `Dataset().select` method is the extension of `Dataset().query` method.
+It is a method to select the data from table: **table**, returns all data from table if **columns** and **where** is not provided
+
+**Example 1** : Select with conditional filtering
+
+```python {all|2|1-6|9|all}
+# Select player_name, beatmap_type, beatmap_tag, score, score_logit from scores
+# where score > 990k in Qualifiers Round
+ds = dataset.select(
+    table='scores',
+    columns=['player_name', 'beatmap_type', 'beatmap_tag', 'score', 'score_logit'],
+    where={
+        'score': ">990000",
+        'round': "\"Q\""
+    }
+)
+```
+
+**Example 2** : Select without column provided
+
+```python {all|2|1-6|9|all}
+# Select all columns from scores
+# where score > 990k
+ds = dataset.select(
+    table='scores',
+    columns=['player_name', 'beatmap_type', 'beatmap_tag', 'score', 'score_logit'],
+    where={
+        'score': ">990000"
+    }
+)
+```
+
+#### get_old_dataset
+
+The `Dataset().get_old_dataset` is for returning the `pandas.DataFrame` of `scores` table with columns being the beatmaps and indecies being the `players`. This will contain the null data if it is used with `4dm4.db`. This method is for validating data using Collaborative Filtering or KNN Imputation (as they are easier to manage).
+
+### Utility Functions
+
+Utility Functions are in the module named `utils`. It is implemented especially for this study.
+
+#### Collaborative Filtering
+
+The `Adjusted Collaborative Filtering` is used for missing score validation and it is in the class called `CollaborativeFiltering`. The example of how to use can be found here.
+
+```python {all|2|1-6|9|all}
+import numpy as np
+from utils import CollaborativeFiltering
+
+a = np.array(
+    [
+        [1,np.nan,2],
+        [2,3,np.nan],
+        [np.nan,4,4]
+    ]
+)
+]
+
+# Implement Adjusted Collaborative Filtering Model
+cf = CollaborativeFiltering()
+validated_data = cf.transform(a)
+validated_data # expect to return np.array without null data
+```
+
+#### csv to sqlite database
+
+In order to transform from validated 2d pandas array from `Collaborative Filtering` or `sklearn.KNNImputer` to sqlite database, we use `utils.csv_to_sql` function to do that.
+
+In order to use this function, we need `sqlite3.Connection` data type to do that (from `sqlite3.connect` function) and `played` dataset.
+
+The example can be seen in `knnimpute.py`
+
+#### Hypothesis Testing (t-test and f-test)
+
+In order to compare the validated data with original data, we use `t-test` (will consider changing to `nonparametric test` later after index learns stuff) for comparing means (averages) and `f-test` for comparing variances. These are in `utils` module and their names are `two_means_t_test` and `two_variances_f_test`. The inputs are two `np.ndarrays` (of two datasets) and `alpha` (default `0.05`) and the outputs are `p-value` and `reject_null`.
+
+```python
+import numpy as np
+from utils import two_means_t_test, two_variances_f_test
+
+dataset1 = np.random.normal(0, 1, 100)
+dataset2 = np.random.normal(1, 0.75, 120)
+
+# perform two tails t-test for means with alpha=0.05
+p_value_mean, reject_null_mean = two_means_t_test(dataset1, dataset2, alpha=0.05)
+# perform two tails f-test for vairances with alpha=0.05
+p_value_variance, reject_null_variance = two_variances_f_test(
+    dataset1, dataset2, alpha=0.05
+)
+
 ```
 
 ---
 
-## Problems / Challenges
+## Current Problems / Challenges
 
-### Current Obstacles
-
-**Interpretability of the Model**
-
-With all the models we have selected, the problem is the interpretability of the procedure to the public. We need to understand what KNN-Imputation and PCA results tell us and how the outlier models actually select the outliers (calculation and training process). As we are aspiring Data Scientists, this is a challenging job to do to communicate with people and actually find the directions of what to do next.
-
-**Model Selection / More Model Ideas**
-
-We need to find the metric to decide whether which model works the best for this dataset and we need more ideas on the models too (probably add some twists to old model or suggest new ones)
-
-### Current Challenges
-
-**Skillbanning**
-
-After we found the outliers, we need to select the players to skillban. This process is difficult to do automatically since there is no model that supports this yet so we need to come up with our own. This also caused from the problem of **Interpretability of the Model** since we still don't understand the result of dimensionality reduction techniques clearly yet.
-
-**Outlier Detection without Imputing the Missing Data**
-
-As mentioned about KNN-Imputation Method, it can yield the false result and reduce our accuracy on detecting the outliers. To support this sentence, I would give the example of some people who is good at a certain map but having the average or lack of skill on other maps. So another challenge is can we detect the outlier effectively without using any Imputation Method ? This is a tough challenge so we can keep this for later.
+TBA
 
 ---
 
 ## Editor's Notes
 
-### IMPORTANT NOTE
-
-The documentation will soon be outdated for several reasons
-- Refactoring of the code
-- Migration to SQLite Database
-- Model Changes
-
 ### Dataset, Visualizations and Code Archives (Failed Attempts that are not included in documentation)
 
-The Cleaned Dataset, EDA Attempts and Code Archives can be found [here](https://drive.google.com/drive/folders/1A4AH3E1vJ7tGiC_hhnfZ8XMC6pPnu8E5?usp=sharing)
+Cleaned Dataset, EDA Attempts and Code Archives can be found [here](https://drive.google.com/drive/folders/1A4AH3E1vJ7tGiC_hhnfZ8XMC6pPnu8E5?usp=sharing)
 
 ### Message to Collaborator(s)
 
