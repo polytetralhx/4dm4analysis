@@ -32,6 +32,47 @@ This project will soon expand to ranked and loved maps but after we finish the a
 
 TBA
 
+### Outlier Detection Model
+
+TBA
+
+### Model Evaluation
+
+TBA
+
+#### Hand-Picking Outliers
+
+TBA
+
+### Evaluation Metric
+
+<div align="center"><em>"Even if statistical skillban is possible, there will still be the outliers"</em></div>
+
+After completing the process of Hand-Picking, we use the method of Precision and Recall ([Bohutska, 2021](https://towardsdatascience.com/anomaly-detection-how-to-tell-good-performance-from-bad-b57116d71a10)). We compare the model prediction with the hand-picked outliers using the formula for
+
+- Recall : The true positive rate (the result agrees each other) compared with the number of hand-picked outliers
+
+![](https://miro.medium.com/max/604/1*JFFXyQmWC7b-HBR8Xp-o-Q.png)
+
+- Precision : The true positive rate (the result agree each other) compared with the number of model prediction
+
+![](https://miro.medium.com/max/588/1*4I2sVOt7CBoR2bOAugBnYw.png)
+
+We can combine them together using `F1 Score` formula
+
+![](https://miro.medium.com/max/428/1*ywQ6BojJMPImBLkLv_jv2Q.png)
+
+However, we need to consider the `False Positive Rate` and `False Negative Rate` (Pardon my english a bit lol)
+
+- False Positive Rate : The possibility of model prediction is an outlier where the hand-picked does not agree
+- False Negative Rate : The possibility of model prediction is not an outlier where the hand-picked does not agree
+
+The model with High `F1 Score` and satisfying `False Positive Rate` and `False Negative Rate` will be considered as a suitable model to detect the outliers.
+
+### Testing
+
+TBA
+
 ---
 
 ## Code Documentation

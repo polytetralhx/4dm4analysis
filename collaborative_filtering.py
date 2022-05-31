@@ -34,4 +34,4 @@ predict_Item = predict_Item.T
 predict_Item_value = pd.DataFrame(
     predict, index=csv_dataset.index, columns=csv_dataset.columns
 )
-predict_Item_value.to_csv("4dm4_item_cf.predict.csv")
+predict_Item_value.to_csv("4dm4_item_cf_predict.csv")
