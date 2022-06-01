@@ -5,6 +5,7 @@ from dataset import Dataset
 from utils import two_means_t_test, two_variances_f_test
 from scipy.stats import t
 
+
 _4DM_Dataset = Dataset("4dm4.db")
 imputed_4dm = Dataset("4dm4_impute.db")
 PLAYER_NAMES = _4DM_Dataset.select("player_data", ["player_name"]).values.flatten()
@@ -138,8 +139,6 @@ def plot_confidence_interval(
             interested_rounds, min_cis, max_cis, alpha=0.2, color=colors[i]
         )
 
-
-# TODO : t-test for mean of imputed and original data & f-test for variance
 def hypothesis_test_impute():
     for round in interested_rounds:
         for beatmap_type in interested_beatmap_type:

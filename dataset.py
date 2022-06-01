@@ -85,6 +85,23 @@ class Dataset():
             player_name, column_name, score = data
             new_dataframe.at[player_name, column_name] = score
         return new_dataframe
+    
+    def get_label(self, rounds: list, beatmap_type: str, logit=False):
+        """
+        This is a method applied for implementing Linear Regression
+
+        **rounds** (list) : the interested rounds (NOTE: It doesn't work with list with 1 length)
+        **beatmap_type** (str) : a beatmap category (beatmap_type) that is interested
+        **logit** (bool, default=False) : if this parameter is True, the method returns the average logit value of the score and if it is False, the method returns the average score
+        """
+        round_enumerate = {v: k for k, v in enumerate(rounds)}
+        beatmap_type = f"\"{beatmap_type}\""
+        where_fmt = self.format_where({'beatmap_type': beatmap_type, 'round': rounds})
+        logit_str = "_logit" if logit else ""
+        _data = self.query(f"SELECT player_name, round, beatmap_type, avg(score{logit_str}) as avg_score{logit_str} FROM scores WHERE " + where_fmt + " GROUP BY player_name, round")
+        _data['round_ord'] = _data['round'].apply(lambda x: round_enumerate.get(x))
+        _data = _data.drop('round', axis=1)
+        return _data
         
 
 if __name__ == "__main__":
