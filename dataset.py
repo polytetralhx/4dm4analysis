@@ -98,7 +98,7 @@ class Dataset():
         beatmap_type = f"\"{beatmap_type}\""
         where_fmt = self.format_where({'beatmap_type': beatmap_type, 'round': rounds})
         logit_str = "_logit" if logit else ""
-        _data = self.query(f"SELECT player_name, round, beatmap_type, avg(score{logit_str}) as avg_score{logit_str} FROM scores WHERE " + where_fmt + " GROUP BY player_name, round")
+        _data = self.query(f"SELECT player_name, round, avg(score{logit_str}) as avg_score{logit_str} FROM scores WHERE " + where_fmt + " GROUP BY player_name, round")
         _data['round_ord'] = _data['round'].apply(lambda x: round_enumerate.get(x))
         _data = _data.drop('round', axis=1)
         return _data
@@ -107,4 +107,3 @@ class Dataset():
 if __name__ == "__main__":
     _4dm4 = "4dm4.db"
     dataset = Dataset(_4dm4)
-    

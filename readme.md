@@ -48,6 +48,8 @@ TBA
 
 <div align="center"><em>"Even if statistical skillban is possible, there will still be the outliers"</em></div>
 
+<br>
+
 After completing the process of Hand-Picking, we use the method of Precision and Recall ([Bohutska, 2021](https://towardsdatascience.com/anomaly-detection-how-to-tell-good-performance-from-bad-b57116d71a10)). We compare the model prediction with the hand-picked outliers using the formula for
 
 - Recall : The true positive rate (the result agrees each other) compared with the number of hand-picked outliers
@@ -211,8 +213,6 @@ Cleaned Dataset, EDA Attempts and Code Archives can be found [here](https://driv
 
 To : Poly
 
-When I wrote the current challenges, I realized this is beyond scope of my understanding a lot. Imagine actually analyzing data from small sample size (yes, small) and trying to understand what the model yields, or even actually building statistical models from scratch. If we successfully conclude this job, we probably can even do any real world data we wish to do with our magic.
+TBA
 
-I think this will be the most challenging job we have to do so in the osu!mania scene so far. I'm looking forward to learn and discuss with you. You are really smart and I believe we can do something to contribute the osu!mania community. Thank you for joining me and have fun with your work. (and don't forget to take a break as well as it is important to you)
-
-\- IndexError
+\- Index

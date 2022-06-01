@@ -4,7 +4,7 @@ import numpy as np
 from dataset import Dataset
 from utils import two_means_t_test, two_variances_f_test
 from scipy.stats import t
-
+from constants import interested_beatmap_type, interested_rounds
 
 _4DM_Dataset = Dataset("4dm4.db")
 imputed_4dm = Dataset("4dm4_impute.db")
@@ -13,9 +13,6 @@ ROUNDS = _4DM_Dataset.query("SELECT DISTINCT round FROM scores").values.flatten(
 BEATMAP_TYPES = _4DM_Dataset.query(
     "SELECT DISTINCT beatmap_type FROM scores"
 ).values.flatten()
-
-interested_rounds = ["RO32", "RO16", "QF", "SF", "F", "GF"]
-interested_beatmap_type = ["RC", "HB", "LN"]
 
 
 def format_sql_string(string_sql: str):
