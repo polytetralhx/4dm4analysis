@@ -148,10 +148,10 @@ We then obtain the p-values from both tests to see how significance the differen
 
 From the following tests, we've run the test and the result is that the mean from original data is significantly different from the mean from validated data. Moreover, the mean from validated data is lower than the mean from original data. According to f-test, the differences of variances between original data and validated data is insignificance. We can conclude that this validation method (might be) a good approach to validate scores. However, more observations need to be conducted.
 
-## Mappool Analysis
-
-TBA
-
 ## Regression Analysis
+
+Poly and I decided to
+
+## Mappool Analysis
 
 TBA
