@@ -14,7 +14,6 @@ BEATMAP_TYPES = _4DM_Dataset.query(
     "SELECT DISTINCT beatmap_type FROM scores"
 ).values.flatten()
 
-
 def format_sql_string(string_sql: str):
     return f'"{string_sql}"'
 
