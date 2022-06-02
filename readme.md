@@ -213,6 +213,10 @@ Cleaned Dataset, EDA Attempts and Code Archives can be found [here](https://driv
 
 To : Poly
 
-TBA
+I didn't think that we will get a lot of information from this analysis. Having you here helped me a lot in this study. You are really good at storytelling those numbers. I also hope that this project will expand to not only skillbanning, but will answer some of important tournament mappool questions, whether the mappool direction, quality and difficulty balancing of the mappools and many more.
+
+inb4 we have osu!mania Data Analysis Team lol
+
+Again, thank you for joining me. I am looking forward for the masterpiece and I am looking forward to see you go beyond this point.
 
 \- Index
