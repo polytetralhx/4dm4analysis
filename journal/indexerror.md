@@ -1,9 +1,9 @@
-# IndexError's Journal on Analysis of 4dm4 Scores
+# Journal on Analysis of 4dm4 Scores
 
 #### (Not so) Important Notes
 
-- I prefer referring myself as _index_ in here but you can call me _htpln_ or _howtoplayln_ if you know me in game.
-- ~~index can't do citation and references properly don't mind him~~
+- (HowToPlayLN / IndexError) I prefer referring myself as _index_ in here but you can call me _htpln_ or _howtoplayln_ if you know me in game.
+- (HowToPlayLN / IndexError) ~~index can't do citation and references properly don't mind him~~
 - TBA
 
 ## Previous Attempt(s)
@@ -150,7 +150,13 @@ From the following tests, we've run the test and the result is that the mean fro
 
 ## Regression Analysis
 
-Poly and I decided to
+POLY PLS HELP
+
+![](https://cdn.discordapp.com/attachments/546525809440194560/981905464260456498/RC.png)
+
+![](https://cdn.discordapp.com/attachments/546525809440194560/981905463975235604/LN.png)
+
+![](https://cdn.discordapp.com/attachments/546525809440194560/981905463601946654/HB.png)
 
 ## Mappool Analysis
 
