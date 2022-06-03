@@ -24,9 +24,6 @@
 
   - [ ] Code Refactoring & Documentation
   - [ ] Major Questions
-  - [ ] Methodology
-    - [ ] EDA Methodology
-    - [ ] EDA Result
   - [ ] Result
   - [ ] Discussion
 
@@ -70,7 +67,14 @@
 
 - [ ] Documentation
 
-  - [ ] TBA
+  - [ ] Methodology
+    - [x] EDA Methodology
+      - Missing Data Validation
+      - Regression Analysis
+    - [x] EDA Result
+      - Hypothesis Testing
+      - Interpretation of Regression Analysis
+      - More questions
 
 ### External Questions for Further Research
 
