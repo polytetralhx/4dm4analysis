@@ -20,7 +20,7 @@ This section of the data analysis aims to document the scores obtained by a play
 
 ## Preparation of Data
 
-Huge thanks to HowToPlayLN (HowToProgramming) for contributing much of the code and engineering processes! Refer to the [readme documentation](../readme.md) for more details regarding the dataset and class Dataset used for this project.
+Huge thanks to HowToPlayLN (HowToProgramming) for contributing much of the code and engineering processes! Refer to the [readme documentation](https://github.com/HowToProgramming/4dm4analysis/blob/main/readme.md) for more details regarding the dataset and class Dataset used for this project.
 
 ## Statistical Analysis Methods
 
