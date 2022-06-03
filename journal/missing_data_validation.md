@@ -63,7 +63,7 @@ From the observation, we can see that the Average and 95% Confidence Rice Score 
 
 ## Logit Normalization
 
-The scores we gathered are in the range of 0 to 1 million, which we can scale down to 0-1 by dividing 1 million. After that we use the logit function `ln(x/(1-x))` to transform the data into range `[-inf, inf]`. It makes the data closer to normal distribution (from what I observed in chi-sq goodness of fit) and it prevent the over 1 million score prediction from [Missing Data Validation](#missing-data-validation)
+The scores we gathered are in the range of 0 to 1000000, which we can scale down to 0-1 by dividing 1000000. After that we use the logit function `ln(x/(1-x))` to transform the data into range `(-inf, inf)`. It makes the data closer to normal distribution (from what I observed in chi-sq goodness of fit) and it prevent the over 1 million score prediction from [Missing Data Validation](#missing-data-validation)
 
 ## Missing Data Validation
 
@@ -147,17 +147,3 @@ We then obtain the p-values from both tests to see how significance the differen
 ### Hypothesis Testing Results
 
 From the following tests, we've run the test and the result is that the mean from original data is significantly different from the mean from validated data. Moreover, the mean from validated data is lower than the mean from original data. According to f-test, the differences of variances between original data and validated data is insignificance. We can conclude that this validation method (might be) a good approach to validate scores. However, more observations need to be conducted.
-
-## Regression Analysis
-
-POLY PLS HELP
-
-![](https://cdn.discordapp.com/attachments/546525809440194560/981905464260456498/RC.png)
-
-![](https://cdn.discordapp.com/attachments/546525809440194560/981905463975235604/LN.png)
-
-![](https://cdn.discordapp.com/attachments/546525809440194560/981905463601946654/HB.png)
-
-## Mappool Analysis
-
-TBA

@@ -25,7 +25,9 @@
   - [ ] Code Refactoring & Documentation
   - [ ] Major Questions
   - [ ] Methodology
-  - [ ] Results
+    - [ ] EDA Methodology
+    - [ ] EDA Result
+  - [ ] Result
   - [ ] Discussion
 
 ### In-Progress
@@ -69,3 +71,7 @@
 - [ ] Documentation
 
   - [ ] TBA
+
+### External Questions for Further Research
+
+- Do qualifiers seeds actually matter ? Is there any relation between qualifiers seeds and the overall performance in the actual match ?

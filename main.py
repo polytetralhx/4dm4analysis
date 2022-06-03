@@ -56,7 +56,7 @@ def regression_plot(category: str):
         print(model_label)
         print("Shapiro Wilk for Residuals")
         print("test stat", shapiro_stat, "p-value", p_value_shapiro)
-        print("Coef", model.coef_, "Intercept", model.intercept_)
+        # print("Coef", model.coef_, "Intercept", model.intercept_)
 
     plt.legend(prop={'size': 4})
 
