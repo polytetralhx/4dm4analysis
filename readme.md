@@ -140,6 +140,40 @@ ds = dataset.select(
 
 The `Dataset().get_old_dataset` is for returning the `pandas.DataFrame` of `scores` table with columns being the beatmaps and indecies being the `players`. This will contain the null data if it is used with `4dm4.db`. This method is for validating data using Collaborative Filtering or KNN Imputation (as they are easier to manage).
 
+#### get_label
+
+HowToPLayLN is bad at naming things. However this method will output the `pd.DataFrame` which consists of columns `player_name`, `avg_score` or `avg_score_logit` and `round_ord` which is the ordinal data from according to the parameter `rounds` which is a `list` of interested rounds
+
+**Parameters**
+
+- **rounds** : Interested Rounds, the output will be ordered according to the given list of interested rounds
+- **beatmap_type** : Interested Beatmap Type, here we can input only 1 beatmap type that we are interested
+- **logit** : Parameter to indicate whether the function will output `avg_score` or `avg_score_logit`
+
+**Example**
+
+```python {all|2|1-6|9|all}
+from dataset import Dataset
+
+_4dm4 = Dataset('4dm4.db')
+
+interested_rounds = ["RO32", "RO16", "QF"]
+interested_beatmap_type = "RC"
+
+# Get scores with regression labeled data from the 4dm4.db sqlite dataset
+# Where the interested rounds are RO32, RO16 and QF
+_4dm_regression_labeled_data = _4dm4.get_label(interested_rounds, interested_beatmap_type, logit=False)
+
+# Here rounds are encoded as the following
+"""
+round round_ord
+RO32  0
+RO16  1
+QF    2
+"""
+_4dm_regression_labeled_data # expect pd.DataFrame with player_name, avg_score and round_ord columns
+```
+
 ### Utility Functions
 
 Utility Functions are in the module named `utils`. It is implemented especially for this study.
@@ -192,7 +226,59 @@ p_value_mean, reject_null_mean = two_means_t_test(dataset1, dataset2, alpha=0.05
 p_value_variance, reject_null_variance = two_variances_f_test(
     dataset1, dataset2, alpha=0.05
 )
+```
 
+### Models implemented from sklearn
+
+#### Polynomial Regression with Ridge and Lasso
+
+In `models.py` there are three new models implemented from **sklearn** in order to perform the **Polynomial Regression, Polynomial Regression with Ridge and Lasso implementation** using the `sklearn.preprocessing.PolynomialFeatures` and build pipeline using `sklearn.pipeline`.
+
+**Polynomial Regression**
+
+We can build a **Polynomial Regression** model using
+
+```python
+import numpy as np
+from models import PolynomialRegression
+
+# Define the variables to regression
+dummy_x = np.array([[1], [2], [3], [4]])
+dummy_y = np.array([4.1, 8.95, 16.05, 25])
+
+# Build a Polynomial Regression model with degree = 2
+poly = PolynomialRegression(degree=2)
+
+# Fit the Polynomial Regression model using dummies
+poly.fit(dummy_x, dummy_y)
+
+# Predict the outcome of given value(s)
+poly.predict(dummy_x)
+```
+
+**Polynomial Regression with Ridge and Lasso**
+
+There are **Ridge** and **Lasso** implementation of Polynomial Regression for conducting the study on the behaviour of the functions where they prioritize outliers less than other data points. We can build them using
+
+```python
+import numpy as np
+from models import PolyRidge, PolyLasso
+
+# Define the variables to regression
+dummy_x = np.array([[1], [2], [3], [4]])
+dummy_y = np.array([4.1, 8.95, 16.05, 25])
+
+# Build a Polynomial Regression with Ridge and Lasso implementation with degree = 2 and alpha = 0.5
+polyridge_alpha_0_5 = PolyRidge(degree=2, alpha=0.5)
+polylasso_alpha_0_5 = PolyLasso(degree=2, alpha=0.5)
+
+# Fit the Polynomial Regression with Ridge and Lasso implementation using dummies
+polyridge_alpha_0_5.fit(dummy_x, dummy_y)
+polylasso_alpha_0_5.fit(dummy_x, dummy_y)
+
+# Predict the outcome of given value(s)
+polyridge_alpha_0_5.fit(dummy_x)
+polylasso_alpha_0_5.fit(dummy_x)
 ```
 
 ---

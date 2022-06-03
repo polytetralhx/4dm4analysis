@@ -36,7 +36,7 @@ Polynomial Regression is the other form of regression considered for this sub-pr
 
 Of course, when it comes down to a polynomial, there is an implication that a player's scores could be related to the difficulty of a round through a quadratic equation, or a cubic equation. The difference in powers is called a _degree_, where a quadratic equation would be of the _2nd degree_, and a cubic equation of the _3rd degree_ (basic mathematical knowledge is expected).
 
-For this specific project, the _2nd degree_ and _3rd degree_ best-fit curve was identified for the same scores. The Polynomial Regression model from the sklearn package has also been used.
+For this specific project, the _2nd degree_ and _3rd degree_ best-fit curve was identified for the same scores. The Polynomial Regression model applied from the sklearn package has also been used.
 
 ### Shrinkage Methods for Regression
 
@@ -51,35 +51,47 @@ https://corporatefinanceinstitute.com/resources/knowledge/other/lasso/
 
 The difference between Ridge and Lasso can be found in the optimization process. A constrained optimization problem of Ridge can be written as
 
-![Optimization Problem of Ridge Regression](https://cdn.discordapp.com/attachments/546525809440194560/982146458474119168/unknown.png)
+<div align="center">
+<img src="https://cdn.discordapp.com/attachments/546525809440194560/982146458474119168/unknown.png" alt="Optimization Problem of Ridge Regression" /> <br>
+Optimization Problem of Ridge Regression (<a href="https://doi.org/10.1007/978-0-387-84858-7_8">The elements of statistical learning</a>)
+</div>
 
-<div align="center">Optimization Problem of Ridge Regression (<a href="https://doi.org/10.1007/978-0-387-84858-7_8">The elements of statistical learning</a>)</div>
+<br>
 
 Which can be written as an unconstrained optimization using the [**Lagrange Multipiler**](https://en.wikipedia.org/wiki/Lagrange_multiplier) which is the method to include the constraint into an equation that is required to be optimized.
 
-![Optimization Problem of Ridge Regression with Lagrange Multipiler](https://cdn.discordapp.com/attachments/546525809440194560/982147696267784242/unknown.png)
+<div align="center">
+<img src="https://cdn.discordapp.com/attachments/546525809440194560/982147696267784242/unknown.png" alt="Optimization Problem of Ridge Regression with Lagrange Multipiler" /> <br>
+Unconstrained Optimization Problem of Ridge Regression (<a href="https://doi.org/10.1007/978-0-387-84858-7_8">The elements of statistical learning</a>)</div>
 
-<div align="center">Unconstrained Optimization Problem of Ridge Regression (<a href="https://doi.org/10.1007/978-0-387-84858-7_8">The elements of statistical learning</a>)</div>
+<br>
 
 This Unconstrained Optimization Problem can be solved analytically. The analytical solution of Multivariable Ridge Regression can be written as
 
-![](https://cdn.discordapp.com/attachments/546525809440194560/982148685716668466/unknown.png)
+<div align="center">
+<img src="https://cdn.discordapp.com/attachments/546525809440194560/982148685716668466/unknown.png" alt="Analytical Solution of Ridge Regression" /> <br>
+Analytical Solution of Ridge Regression (<a href="https://doi.org/10.1007/978-0-387-84858-7_8">The elements of statistical learning</a>)</div>
 
-<div align="center">Analytical Solution of Ridge Regression (<a href="https://doi.org/10.1007/978-0-387-84858-7_8">The elements of statistical learning</a>)</div>
+<br>
 
 We can see that Ridge tries to reduce the variance from outliers by sacrificing the bias according to constraints meanwhile also solving the multicollinearity in multivariate regression analysis.
 
 Lasso also solves the same problem with the different approach, here the constraints are the absolute value of the coefficients.
 
-![](https://cdn.discordapp.com/attachments/546525809440194560/982155091433885696/unknown.png)
+<div align="center">
+<img src="https://cdn.discordapp.com/attachments/546525809440194560/982155091433885696/unknown.png" alt="Constrained Optimization Problem of Lasso" /> <br>
+Constrained Optimization Problem of Lasso (<a href="https://doi.org/10.1007/978-0-387-84858-7_8">The elements of statistical learning</a>)
+</div>
 
-<div align="center">Constrained Optimization Problem of Lasso (<a href="https://doi.org/10.1007/978-0-387-84858-7_8">The elements of statistical learning</a>)</div>
+<br>
 
 Which can be written as an unconstrained optimization problem using Lagrange Multipiler
 
-![](https://cdn.discordapp.com/attachments/546525809440194560/982155167455657984/unknown.png)
+<div align="center">
+<img src="https://cdn.discordapp.com/attachments/546525809440194560/982155167455657984/unknown.png" alt="Unconstrained Optimization Problem of Lasso" /> <br>
+Unconstrained Optimization Problem of Lasso (<a href="https://doi.org/10.1007/978-0-387-84858-7_8">The elements of statistical learning</a>)</div>
 
-<div align="center">Unconstrained Optimization Problem of Lasso (<a href="https://doi.org/10.1007/978-0-387-84858-7_8">The elements of statistical learning</a>)</div>
+<br>
 
 Due to the non-differentiability of the function. We cannot find the analytical solution of this optimization problem. However we can see that Ridge and Lasso serves the same purpose of reducing the variance from the outliers with the bias tradeoff. However according to [this section](#shrinkage-methods-for-regression) we can see that Lasso tends to ignore some of the unrelevant variables and outliers.
 
