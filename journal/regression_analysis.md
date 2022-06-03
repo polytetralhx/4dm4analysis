@@ -1,5 +1,13 @@
 # Regression Analysis Documentation
 
+---
+
+Authors : Polytetral, HowToPlayLN
+
+Date : 3rd June 2022
+
+---
+
 Some say that the physical ability of an osu!mania player to play tougher charts may translate into stronger accuracy and consistency. Hence, there could be a strong correlation between physicality and accuracy of a player (with a small number of exceptions).
 
 It may not make sense to analyse both types of players as if they are 2 different forms of life. _Wouldn't it be better to marry both aspects and study how they affect a player's tournament performance?_

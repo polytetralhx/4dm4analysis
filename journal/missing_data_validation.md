@@ -1,24 +1,12 @@
-# Journal on Analysis of 4dm4 Scores
+# Missing Data Validation for 4dm4 Scores
 
-#### (Not so) Important Notes
+---
 
-- (HowToPlayLN / IndexError) I prefer referring myself as _index_ in here but you can call me _htpln_ or _howtoplayln_ if you know me in game.
-- (HowToPlayLN / IndexError) ~~index can't do citation and references properly don't mind him~~
-- TBA
+Author : HowToPlayLN (IndexError)
 
-## Previous Attempt(s)
+Date : 3rd June 2022
 
-### Methodology
-
-Read readme.md in main branch I'll import to here soon I guess
-
-### Why are they failed ?
-
-TBA
-
-### How close are we to our goal ?
-
-TBA
+---
 
 ## Exploratory Data Analysis
 
