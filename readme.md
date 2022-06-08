@@ -283,6 +283,50 @@ polylasso_alpha_0_5.fit(dummy_x)
 
 ---
 
+## Database Documentation
+
+The actual 4dm4 data (both players and teams) are collected in `4dm4.db` which can be download through [this Google Drive Link](https://drive.google.com/file/d/12v4LsaVoniUpYK8UYq9MV-InYnXOkzJZ/view?usp=sharing). There are 4 tables in this Database.
+
+### scores
+
+`scores` table contains the score of each player. These are attributes of the table
+
+- `player_name` Username of a player
+- `round` A round that the score is recorded
+- `beatmap_type` Type / Category of a beatmap
+- `beatmap_tag` Tag of a beatmap (this attribute is used to distinguish between each map in the same beatmap category)
+- `score` score of a player
+- `score_logit` logit of score of a player 
+
+### player_data
+
+`player_data` table contains the player data and country code
+
+- `player_name` Username of a player
+- `player_id` User id of a player
+- `country_code` Country Code of a player
+
+### team_data
+
+`team_data` table contains team data
+
+- `country_name` Country Name of the team
+- `country_code` Country Code of the team
+- `last_round` The placement where the team last survived
+
+### team_scores
+
+`team_scores` table contains scores of each team
+
+- `country_name` Country Name of the team
+- `round` A round that the score is recorded
+- `beatmap_type` Type / Category of a beatmap
+- `beatmap_tag` Tag of a beatmap (this attribute is used to distinguish between each map in the same beatmap category)
+- `score` score of the team recorded in the matches
+- `score_logit` logit of score of the team recorded in the matches
+
+---
+
 ## Current Problems / Challenges
 
 TBA
