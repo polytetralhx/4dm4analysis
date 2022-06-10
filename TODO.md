@@ -23,19 +23,22 @@
 - [ ] Documentation
 
   - [ ] Code Refactoring & Documentation
+    - [ ] Moving analysis to `.ipynb` if possible (Engineering part is still `.py`)
   - [ ] Major Questions
   - [ ] Result
   - [ ] Discussion
 
 ### In-Progress
 
-- [ ] Data Cleaning
+- [ ] Data Cleaning / Engineering
 
   - Nothing to do now
 
 - [ ] Analysis
 
-  - [ ] TBA
+  - [ ] Analysis of Qualifiers Scores
+    - [ ] Logistic Regression (@poly)
+    - [ ] Overall Conclusion
 
 - [ ] Questionnaire
 
@@ -60,6 +63,8 @@
     - Linear Regression
     - Polynomial Regression Degree 2 and 3
     - Applying L1 and L2 Regularization (Lasso, Ridge)
+  - [ ] Qualifiers Analysis
+    - [x] Survival Analysis
 
 - [ ] Questionnaire
 
