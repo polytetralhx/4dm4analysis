@@ -19,7 +19,7 @@ def similarity(a: np.ndarray, b: np.ndarray):
     a_intersect, b_intersect = vector_intersect(a, b)
     if len(a_intersect) == 0:
         return 0
-    return compare_vectors(a_intersect, b_intersect) * (len(a_intersect) / len(a))
+    return compare_vectors(a_intersect, b_intersect)
 
 
 class CollaborativeFiltering:
